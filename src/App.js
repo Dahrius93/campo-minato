@@ -151,7 +151,7 @@ function MineField(){
   };
 
   return(
-    <div>
+    <>
       <div className='game'>
         <h1>Campo Minato</h1>
         <div className='board'>
@@ -185,7 +185,7 @@ function MineField(){
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 }
 
