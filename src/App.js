@@ -66,14 +66,25 @@ function MineField(){
     if (gameOver || gameWon) {
       return;
     }
+
     const cell = board[row][col];
     // Se la cella non è rivelata, si può mettere o rimuovere la bandiera
-    if (!cell.revealed) {
+    const checkUpOk = cell.flag || flagCount < 10; // controllo quando metto flag
+    const checkDownOk = !cell.flag || flagCount > 0; // controllo quando tolgo flag
+    //console.log("A", checkUpOk)
+    //console.log("B", checkDownOk)
+    //console.log("cell.flag", cell.flag )
+
+    if (!cell.revealed && checkUpOk && checkDownOk) {
+
       const newBoard = [...board];
+
       newBoard[row][col].flag = !cell.flag;
       setBoard(newBoard);
       // Aggiornamento del conteggio delle bandiere
-      setFlagCount(flagCount + (cell.flag ? -1 : 1));
+      // setFlagCount(flagCount + (cell.flag ? -1 : 1));
+
+      setFlagCount((currentFlagCount) => currentFlagCount + (cell.flag ? 1 : -1))
     }
   }
 
@@ -98,6 +109,10 @@ function MineField(){
   useEffect(() => {
     createBoard(10, 10, 10);
   }, []);
+
+  useEffect(() => {
+    console.log(flagCount);
+  }, [flagCount]);
 
   // Funzione per renderizzare ogni singola cella
   const renderCell = (row, col) => {
@@ -155,7 +170,7 @@ function MineField(){
       <div className='game'>
         <h1>Campo Minato</h1>
         <div className='board'>
-          {/* Ciclo per rendere la board */}
+          {/* Ciclo per renderizzare la board */}
           {board.map((row, rowIndex) => (
             <div key={rowIndex} className='row'>
               {row.map((_, colIndex) => (
