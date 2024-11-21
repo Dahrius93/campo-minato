@@ -84,7 +84,8 @@ function MineField(){
       // Aggiornamento del conteggio delle bandiere
       // setFlagCount(flagCount + (cell.flag ? -1 : 1));
 
-      setFlagCount((currentFlagCount) => currentFlagCount + (cell.flag ? 1 : -1))
+      const flagUpdater = (currentFlagCount) => currentFlagCount + (cell.flag ? 1 : -1)
+      setFlagCount (flagUpdater)
     }
   }
 
@@ -110,6 +111,8 @@ function MineField(){
     createBoard(10, 10, 10);
   }, []);
 
+  // useEffect usato per tenere traccia delle modifiche
+  // [flagCount] è la condizione per resettare useEffect
   useEffect(() => {
     console.log(flagCount);
   }, [flagCount]);
